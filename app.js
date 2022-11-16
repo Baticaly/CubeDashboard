@@ -13,13 +13,6 @@ app.get('/client', (req, res) => {
   res.sendFile(__dirname + '/client.html');
 });
 
-io.on('connection', (socket) => {
-
-
-  io.local.emit('clientUpdate', 'new client connected');
-
-});
-
 io.on("connection", (socket) => {
   console.log(`New socket - ${socket.id}`);
 
