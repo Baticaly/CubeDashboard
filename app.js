@@ -9,12 +9,43 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', (socket) => {
-  io.local.emit('clientUpdate','new client connected');
-  socket.on('message', (msg) => {
-    io.emit('message', msg);
-  });
+app.get('/client', (req, res) => {
+  res.sendFile(__dirname + '/client.html');
 });
+
+io.on('connection', (socket) => {
+
+
+  io.local.emit('clientUpdate', 'new client connected');
+
+});
+
+io.on("connection", (socket) => {
+  console.log(`New socket - ${socket.id}`);
+
+  // Declare as client
+  socket.on('set-client', (msg) => {
+    socket.join("client");
+  });
+
+  // Declare as provider
+  socket.on('set-provider', (msg) => {
+    socket.join("provider");
+  });
+
+  // Proxy
+  socket.on('payload', (data) => {
+    socket.to("client").emit('update', data);
+  });
+
+});
+
+// Private Message
+// io.on("connection", socket => {
+//   socket.on("private message", (anotherSocketId, msg) => {
+//     socket.to(anotherSocketId).emit("private message", socket.id, msg);
+//   });
+// });
 
 // Global Broadcast
 // io.on('connection', (socket) => {

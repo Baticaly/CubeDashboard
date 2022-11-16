@@ -65,7 +65,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
-    socket.emit("set-provider");
+    socket.emit("set-client");
 
     var messages = document.getElementById("messages");
     var form = document.getElementById("form");
@@ -79,18 +79,11 @@
       }
     });
 
-    // socket.on("message", function (msg) {
-    //   var item = document.createElement("li");
-    //   item.textContent = msg;
-    //   messages.appendChild(item);
-    //   window.scrollTo(0, document.body.scrollHeight);
-    // });
-
-    // socket.on("clientUpdate", function (msg) {
-    //   var item = document.createElement("li");
-    //   item.textContent = msg;
-    //   messages.appendChild(item);
-    //   window.scrollTo(0, document.body.scrollHeight);
-    // });
+    socket.on("update", function (msg) {
+      var item = document.createElement("li");
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
   </script>
 </html>
