@@ -5,12 +5,18 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+app.use(express.static('public'))
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/client', (req, res) => {
   res.sendFile(__dirname + '/client.html');
+});
+
+app.get('/render', (req, res) => {
+  res.sendFile(__dirname + '/render.html');
 });
 
 io.on("connection", (socket) => {
